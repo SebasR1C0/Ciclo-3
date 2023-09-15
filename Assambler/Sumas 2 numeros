@@ -1,0 +1,23 @@
+mov D, 232
+
+mov A, 11
+mov B, 16
+
+add A, B
+mov B, A
+mov [100], 3
+
+div 10
+jz .unidades:
+add A, 48
+mov [D], A
+sub A, 48
+mul 10
+inc D
+
+.unidades:
+sub A, B
+not A
+inc A
+add A, 48
+mov [D], A
