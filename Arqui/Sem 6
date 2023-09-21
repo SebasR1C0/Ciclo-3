@@ -1,0 +1,12 @@
+ssh -i "vockey.pem" ubuntu@ec2-18-207-143-204.compute-1.amazonaws.com instancia del ubunto
+
+-L:3390:172.31.53.129:3389  Direcciones IPv4 privadas de windows
+
+ssh -i "vockey.pem" -L:3390:172.31.53.129:3389 ubuntu@ec2-18-207-143-204.compute-1.amazonaws.com
+
+remote desktp: localhost:3390
+
+instancia windows - cliente de RDP - DESFIBRAR LA CONTRA CON EL VOCKEY
+
+rwrH245!rA(LsQ$QC5dGJ!x)yd2-qXYe
+
