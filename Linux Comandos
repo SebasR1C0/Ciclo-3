@@ -1,1 +1,14 @@
 1. Lista los archivos del directorio actual, incluyendo los ocultos
+ls -a
+
+2. Obtener el nombre del directorio en el que se encuentran
+pwd
+
+3. Crear un directorio llamado prueba dentro de la carpeta /home/ubunto
+sudo mkdir /home/ubuntu/prueba
+
+4. Editar la carpeta con
+nano /home/ubuntu/prueba
+
+5. Obtener información del uso de memoria secundaria evidencia (espacio utilizado y disponible) 
+df -h
