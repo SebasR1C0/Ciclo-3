@@ -1,0 +1,22 @@
+.loop:
+div 10
+jz .unidades:
+add A, 48
+mov [D], A
+sub A, 48
+mul 10
+inc D
+
+.unidades:
+sub A, B
+not A
+inc A
+add A, 48
+mov [D], A
+add D, 2
+
+inc B
+mov A, B
+cmp A, 6
+
+jnz .loop
