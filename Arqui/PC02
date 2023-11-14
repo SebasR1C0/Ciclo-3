@@ -1,0 +1,95 @@
+#include <iostream>
+#include <list>
+#include <unordered_map>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+class Memoria {
+public:
+    int tamano;
+    list<int> orden_paginas;  // Lista que mantiene el orden de acceso de las páginas
+    unordered_map<int, list<int>::iterator> posiciones_paginas;  // Mapa que mantiene la posición de cada página en orden_paginas
+    int aciertos;
+    int fallos;
+
+    Memoria(int tamano) : tamano(tamano), aciertos(0), fallos(0) {}
+
+    bool esta_llena() {
+        return orden_paginas.size() >= tamano;
+    }
+
+    void acceder_pagina(int numero_pagina) {
+        auto iter_posicion = posiciones_paginas.find(numero_pagina);
+
+        cout << "Acceso: Pagina " << numero_pagina;
+
+        if (iter_posicion != posiciones_paginas.end()) {
+            // Si la página ya está en memoria, la movemos al final de la lista (ya que ha sido accedida recientemente)
+            orden_paginas.erase(iter_posicion->second);
+            orden_paginas.push_back(numero_pagina);
+            posiciones_paginas[numero_pagina] = prev(orden_paginas.end());
+            aciertos++;
+            cout << " (Acierto)";
+        }
+        else {
+            fallos++;
+            if (esta_llena()) {
+                // Si la memoria está llena, eliminamos la página menos recientemente utilizada (al principio de la lista)
+                int menos_recientemente_usada = orden_paginas.front();
+                orden_paginas.pop_front();
+                posiciones_paginas.erase(menos_recientemente_usada);
+            }
+            // Añadimos la nueva página al final de la lista
+            orden_paginas.push_back(numero_pagina);
+            posiciones_paginas[numero_pagina] = prev(orden_paginas.end());
+            cout << " (Fallo)";
+        }
+
+        cout << endl;
+    }
+
+    void imprimir_estado_memoria() {
+        cout << "Paginas en memoria: ";
+        for (int pagina : orden_paginas) {
+            cout << pagina << " ";
+        }
+        cout << endl;
+    }
+
+    void imprimir_resultados() {
+        cout << "Resultados:" << endl;
+        cout << "Aciertos: " << aciertos << endl;
+        cout << "Fallos: " << fallos << endl;
+    }
+};
+
+int main() {
+    srand(time(0));
+
+    // Solicitar al usuario el tamaño de la memoria
+    int tamano_memoria;
+    cout << "Ingrese el tamano de la memoria: ";
+    cin >> tamano_memoria;
+    cout << endl;
+    Memoria memoria(tamano_memoria);
+
+    // Solicitar al usuario la cantidad de accesos
+    int num_accesos;
+    cout << "Ingrese la cantidad de accesos: ";
+    cin >> num_accesos;
+    cout << endl;
+    // Generar una secuencia aleatoria de acceso a páginas
+    for (int i = 0; i < num_accesos; ++i) {
+        int numero_pagina = rand() % 10 + 1;  // Páginas de 1 a 10
+        memoria.acceder_pagina(numero_pagina);
+        memoria.imprimir_estado_memoria();
+        cout << "----------" << endl;
+    }
+
+    // Mostrar resultados al final de la simulación
+    memoria.imprimir_resultados();
+
+    return 0;
+}
